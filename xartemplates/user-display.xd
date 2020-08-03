@@ -1,0 +1,52 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+             <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+         #xarTplGetMessage()#
+    </div>
+    <div class="xar-mod-body">
+        <h1>
+            <xar:mlstring>File display</xar:mlstring>
+        </h1>
+        <xar:template type="module" file="file-actions" />
+        <div class="xar-mod-content">
+            <xar:template file="file-pager" type="module" />
+
+            <!-- IMAGE -->
+            <div class="xar-form-input-wrapper-after">
+                <img src="#$item['image_big']#" alt="#$item['mime']#" />
+            </div>
+
+            <!-- FILE -->
+            <div class="xar-form-input-wrapper">
+                <label class="xar-form-label" title="#xarML('Location of file')#"><xar:mlstring>File</xar:mlstring>:</label>
+                #$item['viewpath']#
+            </div>
+
+            <!-- MODIFIED -->
+            <div class="xar-form-input-wrapper">
+                <label class="xar-form-label" title="#xarML('Modified')#"><xar:mlstring>Modified</xar:mlstring>:</label>
+                <xar:ml>
+                    <xar:mlstring>#(1) #(2)</xar:mlstring>
+                    <xar:mlvar>#xarLocaleGetFormattedDate('medium', $item['modified'])#</xar:mlvar>
+                    <xar:mlvar>#xarLocaleGetFormattedTime('medium', $item['modified'])#</xar:mlvar>
+                </xar:ml>
+            </div>
+
+            <!-- MIMETYPE -->
+            <div class="xar-form-input-wrapper">
+                <label class="xar-form-label" title="#xarML('Type')#"><xar:mlstring>Type</xar:mlstring>:</label>
+                #$item['mime']#
+            </div>
+
+            <!-- SIZE -->
+            <div class="xar-form-input-wrapper">
+                <label class="xar-form-label" title="#xarML('Size')#"><xar:mlstring>Size</xar:mlstring>:</label>
+                #$item['hrsize']#
+            </div>
+        </div>
+    </div>
+</div>

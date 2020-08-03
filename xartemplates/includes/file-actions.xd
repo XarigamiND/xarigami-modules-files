@@ -1,0 +1,88 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+<xar:style scope="module" file="tabs" module="base" />
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="fancybox" pluginfile="jquery.fancybox.pack" style="jquery.fancybox" />
+<xar:set name="fancystuff">
+"$(document).ready(function() {
+    $('a.filepreview').fancybox();
+
+});"
+</xar:set>
+<xar:base-include-javascript type="onload" code="$fancystuff" />
+
+<xar:set name="request">xarRequestGetInfo()</xar:set>
+<xar:set name="activetab">#$request.2#</xar:set>
+<xar:set name="urlpath">isset($item['urlpath'])?$item['urlpath']:''</xar:set>
+<xar:set name="is_dir">isset($item['is_dir'])?$item['is_dir']:''</xar:set>
+<ul class="xar-tabs">
+    <li class="xar-tabs-label">
+        <xar:mlstring>File:</xar:mlstring>
+    </li>
+    <xar:if condition="$activetab eq 'display'">
+        <xar:set name="tabclass">'xar-tab-active'</xar:set>
+    <xar:else />
+        <xar:set name="tabclass">'xar-tab'</xar:set>
+    </xar:if>
+    <li class="#$tabclass#">
+        <a href="#xarModURL('files', 'user', 'display', array('path' => $urlpath))#" title="#xarML('Details for this file')#"><xar:mlstring>Details</xar:mlstring></a>
+    </li>
+
+    <xar:if condition="!empty($options['view'])">
+        <xar:if condition="$activetab eq 'view'">
+            <xar:set name="tabclass">'xar-tab-active'</xar:set>
+        <xar:else />
+            <xar:set name="tabclass">'xar-tab'</xar:set>
+        </xar:if>
+        <xar:if condition="isset($item['viewable']) and $item['viewable']">
+            <li class="#$tabclass#">
+                <a class="filepreview" href="#xarModURL('files', 'user', 'view', array('path' => $urlpath))#" title="#xarML('Preview this file')#"><xar:mlstring>Preview</xar:mlstring></a>
+            </li>
+        </xar:if>
+        <xar:if condition="$activetab eq 'download'">
+            <xar:set name="tabclass">'xar-tab-active'</xar:set>
+        <xar:else />
+            <xar:set name="tabclass">'xar-tab'</xar:set>
+        </xar:if>
+
+        <li class="#$tabclass#">
+            <a href="#xarModURL('files', 'user', 'download', array('path' => $urlpath))#" title="#xarML('Download this file')#"><xar:mlstring>Download</xar:mlstring></a>
+        </li>
+    </xar:if>
+
+    <xar:if condition="!empty($options['edit'])">
+        <xar:if condition="$activetab eq 'modify'">
+            <xar:set name="tabclass">'xar-tab-active'</xar:set>
+        <xar:else />
+            <xar:set name="tabclass">'xar-tab'</xar:set>
+        </xar:if>
+          <li class="#$tabclass#">
+            <a href="#xarModURL('files', 'user', 'modify', array('path' => $urlpath))#" title="#xarML('Edit this file')#"><xar:mlstring>Edit</xar:mlstring></a>
+        </li>
+    </xar:if>
+
+    <xar:if condition="!empty($options['moderate'])">
+             <xar:if condition="$activetab eq 'rename'">
+                <xar:set name="tabclass">'xar-tab-active'</xar:set>
+            <xar:else />
+                <xar:set name="tabclass">'xar-tab'</xar:set>
+            </xar:if>
+            <li class="#$tabclass#">
+                <xar:if condition="$is_dir">
+                    <a href="#xarModURL('files', 'user', 'rename', array('path' => $urlpath, 'itemtype' => 'folder'))#" title="#xarML('Rename')#"><xar:mlstring>Rename</xar:mlstring></a>
+                <xar:else />
+                    <a href="#xarModURL('files', 'user', 'rename', array('path' => $urlpath, 'itemtype' => 'file'))#" title="#xarML('Rename')#"><xar:mlstring>Rename</xar:mlstring></a>
+                </xar:if>
+            </li>
+    </xar:if>
+    <xar:if condition="!empty($options['delete'])">
+            <xar:if condition="$activetab eq 'delete'">
+                <xar:set name="tabclass">'xar-tab-active'</xar:set>
+            <xar:else />
+                <xar:set name="tabclass">'xar-tab'</xar:set>
+            </xar:if>
+            <li class="#$tabclass#">
+                <a  href="#xarModURL('files', 'user', 'delete', array('path' => $urlpath))#" title="#xarML('Delete')#"><xar:mlstring>Delete</xar:mlstring></a>
+            </li>
+    </xar:if>
+
+</ul>
+

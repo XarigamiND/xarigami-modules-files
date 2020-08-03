@@ -1,0 +1,91 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1>
+            <xar:mlstring>Modify configuration</xar:mlstring>
+        </h1>
+        <div class="xar-mod-content">
+            <form method="post" action="&xar-modurl-files-admin-updateconfig;">
+                <fieldset>
+                    <legend><xar:mlstring>System Options</xar:mlstring></legend>
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="supportshorturls" class="xar-form-label" title="#xarML('Enable short URLS?')#">
+                            <xar:mlstring>Enable short URLs?</xar:mlstring>
+                        </label>
+                         <xar:data-input type="checkbox"  name="supportshorturls" id="supportshorturls" value="1" checked="$supportshorturls" />
+                    </div>
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="usemodulealias" class="xar-form-label" title="#xarML('Use an alias instead of the module name')#">
+                            <xar:mlstring>Use a module alias?</xar:mlstring>
+                        </label>
+                        <xar:data-input type="checkbox" name="usemodulealias" id="usemodulealias" value="1" checked="$usemodulealias" />
+                    </div>
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="aliasname" class="xar-form-label" title="#xarML('The name of module alias to be used.')#">
+                            <xar:mlstring>Module Alias Name</xar:mlstring>
+                        </label>
+                        <xar:data-input type="textbox" name="aliasname" id="aliasname" value="$aliasname" size="32" maxlength="100" />
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+                    <legend><xar:mlstring>File and Archive Options</xar:mlstring></legend>
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="archive_dir" class="xar-form-label" title="#xarML('Root directory for file archive')#">
+                            <xar:mlstring>File Archive Directory</xar:mlstring>
+                        </label>
+                         <xar:data-input type="textbox" name="archive_dir" id="archive_dir" value="$archive_dir" size="60" />
+                         <xar:if condition="!empty($dirmsg)">
+                             <p class="xar-error xar-form-input-wrapper-after">#$dirmsg#</p>
+                        </xar:if>
+                    </div>
+                    <div class="xar-form-input-wrapper">
+
+                        <label for="allow_multiple" class="xar-form-label" title="#xarML('Allow multiple uploads')#">
+                            <xar:mlstring>Allow multiple uploads?</xar:mlstring>
+                        </label>
+                        <xar:data-input type="checkbox" name="allow_multiple" id="allow_multiple" checked="$allow_multiple" value="1" />
+                    </div>
+                    <div class="xar-form-input-wrapper">
+                        <label for="max_upload" class="xar-form-label" title="#xarML('Maximum number of uploads at one time')#">
+                            <xar:mlstring>Maximum concurrent uploads</xar:mlstring>
+                        </label>
+                         <xar:data-input type="integerbox" name="max_upload" id="max_upload" value="$max_upload" size="2" />
+                         <xar:mlstring>[Leave empty for unlimited]</xar:mlstring>
+                    </div>
+                    <div class="xar-form-input-wrapper">
+                        <label for="filetypes" class="xar-form-label" title="#xarML('Allowed file upload types. Separate by commas')#">
+                            <xar:mlstring>Allowed upload types</xar:mlstring>
+                        </label>
+                         <xar:data-input type="textbox" name="filetypes" id="filetypes" value="$filetypes" size="40" />
+                         <xar:mlstring>[Separate extensions by commas, leave empty for all types]</xar:mlstring>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend><xar:mlstring>Enabled Hooks</xar:mlstring></legend>
+                    <xar:if condition="!empty($hookoutput)">
+                    <xar:foreach in="$hookoutput" key="$hookmodule">
+                        #$hookoutput[$hookmodule]#
+                    </xar:foreach>
+                    </xar:if>
+                </fieldset>
+
+                <div class="xar-form-footer">
+                    <input type="hidden" name="authid" id="authid" value="#$authid#" />
+                    <input type="submit" value="#xarML('Update')#" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

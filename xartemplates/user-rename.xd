@@ -1,0 +1,49 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+             <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+         #xarTplGetMessage()#
+    </div>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Rename</xar:mlstring></h1>
+        <xar:template type="module" file="file-actions" />
+        <div class="xar-mod-content">
+            <xar:template file="file-pager" type="module" />
+
+            <form method="post" action="&xar-modurl-files-user-rename;">
+                <fieldset>
+                    <legend><xar:mlstring>Rename Options</xar:mlstring></legend>
+
+                    <h3 class="xar-align-center">
+                        <xar:if condition="$itemtype eq 'folder'">
+                            <xar:mlstring>Enter a new name for this folder:</xar:mlstring>
+                        <xar:elseif condition="$itemtype eq 'file'" />
+                            <xar:mlstring>Enter a new name for this file:</xar:mlstring>
+                        </xar:if>
+                    </h3>
+
+                    <xar:set name="$dirname">dirname($path)</xar:set>
+                    <xar:set name="$basename">basename($path)</xar:set>
+
+                    <div class="xar-form-input-wrapper">
+                        <label class="xar-form-label" title="#xarML('File path')#">
+                            #$dirname#
+                            <xar:if condition="$dirname ne '/'">/</xar:if>
+                        </label>
+                        <input type="text" name="name" value="#$basename#" />
+                    </div>
+                </fieldset>
+
+                <div class="xar-form-footer">
+                    <input type="submit" value="#xarML('Rename')#" /> &nbsp;
+                    <a href="#xarModURL('files', 'user', 'display', array('path' => $urlpath))#" title="#xarML('Cancel')#"><xar:mlstring>Cancel</xar:mlstring></a>
+                    <input type="hidden" name="itemtype" id="itemtype" value="#$itemtype#" />
+                    <input type="hidden" name="authid" id="authid" value="#$authid#" />
+                    <input type="hidden" name="path" id="path" value="#$urlpath#" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

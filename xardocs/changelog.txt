@@ -1,0 +1,25 @@
+Version 0.6.2 2010-08-06 Jo Dalle Nogare, 2skies.com
+  - Unobtrusive javascript - remove old upload js
+  - Add js for file browsing
+  - Configuration for file uploads including number of multiple files allowed
+  - Types of files allowed
+
+Version 0.6.1 2010-08-05 Jo Dalle Nogare, 2skies.com
+  - update for xarigami user and admin menus
+  - rework the UI for easier navigation in the User menus
+  - Update the overview
+
+Version 0.6.0 2006-05-16
+  - added overview
+  - multiple file upload
+
+Version 0.4.0 2005-11-13
+   - first "official" release
+   - filesystem functions are now Windows compatible
+   - added Rename, New File, and Edit functions
+   - major GUI upgrade
+   - code review and cleanup
+
+Version 0.3.0 2005-11-10
+   - first release
+

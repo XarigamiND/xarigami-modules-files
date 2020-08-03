@@ -1,0 +1,37 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+<xar:template type="module" file="user-header" />
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+             <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+         #xarTplGetMessage()#
+    </div>
+    <div class="xar-mod-body">
+        <h1>
+            <xar:mlstring>Modify item</xar:mlstring>
+        </h1>
+        <xar:template file="file-actions" type="module" />
+        <div class="xar-mod-content">
+             <xar:template type="module" file="file-actions" />
+            <xar:template file="file-pager" type="module" />
+
+            <form method="post" action="&xar-modurl-files-user-update;">
+
+                <fieldset>
+                    <legend><xar:mlstring>Modify File</xar:mlstring></legend>
+                    <div class="xar-form-input-wrapper">
+                        <label class="xar-form-label" title="#xarML('File path')#"><xar:mlstring>File content</xar:mlstring></label>
+                        <textarea name="contents" id="contents" cols="80" rows="30">#$contents#</textarea>
+                    </div>
+                </fieldset>
+                <div class="xar-form-footer">
+                    <input type="submit" value="#xarML('Save')#" /> &#160;
+                    <a href="#xarModURL('files', 'user', 'display', array('path' => $item['urlpath']))#" title="#xarML('Cancel')#"><xar:mlstring>Cancel</xar:mlstring></a>
+                    <input type="hidden" name="authid" id="authid" value="#$authid#" />
+                    <input type="hidden" name="path" id="path" value="#$urlpath#" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

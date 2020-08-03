@@ -1,0 +1,56 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+             <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+         #xarTplGetMessage()#
+    </div>
+    <div class="xar-mod-body">
+        <h1>
+            <xar:if condition="$itemtype eq 'folder'">
+                <xar:mlstring>Create folder</xar:mlstring>
+            <xar:elseif condition="$itemtype eq 'file'" />
+                <xar:mlstring>Create file</xar:mlstring>
+            </xar:if>
+        </h1>
+        <xar:template file="file-actions" type="module" />
+        <div class="xar-mod-content">
+
+            <form method="post" action="#xarModURL('files','user','new')#">
+                <fieldset>
+                    <legend>
+                        <xar:if condition="$itemtype eq 'folder'">
+                            <xar:mlstring>Add new folder</xar:mlstring>
+                        <xar:elseif condition="$itemtype eq 'file'" />
+                            <xar:mlstring>Add new file</xar:mlstring>
+                        </xar:if>
+                    </legend>
+                    <h3 class="xar-align-center">
+                        <xar:if condition="$itemtype eq 'folder'">
+                            <xar:mlstring>Enter a name for this new folder:</xar:mlstring>
+                        <xar:elseif condition="$itemtype eq 'file'" />
+                            <xar:mlstring>Enter a name for this new file:</xar:mlstring>
+                        </xar:if>
+                    </h3>
+
+                    <div class="xar-form-input-wrapper">
+                        <label class="xar-form-label" title="#xarML('File path')#">
+                            #$path#
+                            <xar:if condition="$path ne '/'">/</xar:if>
+                        </label>
+                        <input type="text" name="name" size="35" />
+                    </div>
+                </fieldset>
+                <div class="xar-form-footer">
+                    <input type="submit" value="#xarML('Create')#" />
+                        <a href="#xarModURL('files', 'user', 'display', array('path' => $urlpath))#" title="#xarML('Cancel')#"><xar:mlstring>Cancel</xar:mlstring></a>
+                    <input type="hidden" name="itemtype" id="itemtype" value="#$itemtype#" />
+                    <input type="hidden" name="authid" id="authid" value="#$authid#" />
+                    <input type="hidden" name="path" id="path" value="#$urlpath#" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

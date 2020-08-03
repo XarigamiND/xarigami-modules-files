@@ -1,0 +1,25 @@
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="treetable" pluginfile="jquery.treeTable.min" style="stylesheets/jquery.treeTable.css" module="files" />
+
+<xar:set name="filemaincode">"
+jQuery(document).ready(function() {
+    jQuery('#fileview').treeTable({
+        expandable: true,
+        clickableNodeNames: true,
+        initialState :'expanded',
+        treeColumn: 0,
+        indent: 19
+    });
+    // Make visible that a row is clicked
+    jQuery('table#fileview tbody tr').mousedown(function() {
+        jQuery('tr.selected').removeClass('selected'); // Deselect currently selected rows
+        jQuery(this).addClass('selected');
+    });
+
+    // Make sure row is selected when span is clicked
+    jQuery('table#fileview tbody tr span').mousedown(function() {
+        jQuery(jQuery(this).parents('tr')[0]).trigger('mousedown');
+    });
+
+});
+"</xar:set>
+<xar:base-include-javascript type="code" code="$filemaincode" position="head"/>

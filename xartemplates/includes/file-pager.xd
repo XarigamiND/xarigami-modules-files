@@ -1,0 +1,15 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+
+<div class="xar-padding-thick xar-alt" style="border:1px solid #ddd; font-family:  Georgia, 'Times New Roman', Times, serif; font-size:1.0em">
+    <a href="&xar-modurl-files-user-main;"><img src="#xarTplGetImage('fs-home-32x32.png')#" alt="#xarML('File Path')#" title="#xarML('File Path')#" style="vertical-align:bottom;"/>&#160;<xar:mlstring>files://</xar:mlstring></a>
+    <xar:loop name="$pathparts">
+        <xar:if condition="empty($loop:key)"><xar:continue /></xar:if>
+
+        <xar:if condition="($loop:index + 1) eq count($pathparts) and isset($item) and !$item['is_dir']">
+            <a href="#xarModURL('files', 'user', 'display', array('path' => $loop:item))#">#$loop:key#</a>
+        <xar:else />
+            <a href="#xarModURL('files', 'user', 'main', array('path' => $loop:item))#">#$loop:key#</a> /
+        </xar:if>
+    </xar:loop>
+</div>
+<div class="xar-padding-thick">&#160;</div>

@@ -1,0 +1,105 @@
+<xar:comment>License: GPL http://www.gnu.org/copyleft/gpl.html</xar:comment>
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="ui" pluginfile="ui.all.min" style="ui.css" />
+
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="fancybox" pluginfile="jquery.fancybox.pack" style="jquery.fancybox" />
+<xar:set name="fancystuff">
+"$(document).ready(function() {
+    $('a.filepreview').fancybox();
+
+});"
+</xar:set>
+<xar:base-include-javascript type="onload" code="$fancystuff" />
+<xar:template file="jq-files-user-main" module="files" />
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+             <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+         #xarTplGetMessage()#
+    </div>
+    <div class="xar-mod-body">
+        <h1>
+            <xar:mlstring>File browser</xar:mlstring>
+        </h1>
+        <div class="xar-mod-content">
+            <xar:if condition="!empty($msg)">
+                <div class="xar-align-center">#$msg#</div>
+            <xar:else />
+                <xar:template file="file-pager" type="module" />
+
+                <table class="xar-items" id="fileview">
+                <thead>
+                    <tr>
+                        <th><xar:mlstring>File name</xar:mlstring></th>
+                        <th><xar:mlstring>Size</xar:mlstring></th>
+                        <th><xar:mlstring>Date</xar:mlstring></th>
+                        <th class="xar-align-center"><xar:mlstring>Action</xar:mlstring></th>
+                    </tr>
+                </thead>
+                <xar:comment> *** SHOW FILES IN THIS FOLDER *** </xar:comment>
+                <tbody>
+                    <xar:set name="rowclass">'xar-norm'</xar:set>
+                    <xar:set name="parentid">0</xar:set>
+                    <xar:set name="nodeid">0</xar:set>
+                    <xar:foreach in="$files" key="$k" value="$item">
+                            <xar:if condition="$item['is_dir']">
+                                <xar:set name="rowname">''</xar:set>
+                                <xar:if condition="$item['file'] eq '.'">
+                                    <xar:set name="parentid">$k</xar:set>
+                                </xar:if>
+                            <xar:else />
+                                 <xar:set name="rowname">' child-of-node-'.$parentid</xar:set>
+                            </xar:if>
+                            <tr  class="#$rowclass##$rowname#" id="node-#$nodeid#">
+                                <xar:if condition="$item['is_dir']">
+                                     <xar:set name="folderimage">$item['file'] == '.'?'fs-folder-open.png':'fs-folder.png'</xar:set>
+                                    <td  style="width:60%; padding-left:19px;">
+                                        <img src="#xarTplGetImage($folderimage)#" alt="#xarML('dir')#" width="16" height="16" />
+                                        &#160;
+                                        <xar:if condition="$item['file'] eq '.'">
+                                            <a href="#xarModURL('files', 'user', 'main', array('path' => $item['urlpath']))#" title="#xarML('Browse this directory')#" >
+                                                <xar:mlstring>(Current Directory)</xar:mlstring>
+                                            </a>
+                                        <xar:elseif condition="$item['file'] eq '..'" />
+                                            <a href="#xarModURL('files', 'user', 'main', array('path' => $item['urlpath']))#" title="#xarML('Browse this directory')#" >
+                                                <xar:mlstring>(Parent Directory)</xar:mlstring>
+                                            </a>
+                                        <xar:else />
+                                            <a href="#xarModURL('files', 'user', 'main', array('path' => $item['urlpath']))#" title="#xarML('Browse this directory')#" >
+                                                #$item['file']#
+                                            </a>
+                                        </xar:if>
+                                    </td>
+                                <xar:else />
+                                    <td  style="width:60%;padding-left:19px;">
+                                        <a href="#xarModURL('files', 'user', 'display', array('path' => $item['urlpath']))#" title="#xarML('File details')#"><img src="#$item['image_small']#" alt="#xarML('file')#" style="width:16px;height:16px" /></a>
+                                        &#160;
+                                        <a href="#xarModURL('files', 'user', 'download', array('path' => $item['urlpath']))#" title="#xarML('Download this file')#">#$item['file']#</a>
+                                    </td>
+                                </xar:if>
+                                <td  style="width:10%" class="xar-align-right">#$item['hrsize']#</td>
+                                <td  style="width:10%" class="xar-nowrap xar-align-center">
+                                    <xar:ml>
+                                        <xar:mlstring>#(1) #(2)</xar:mlstring>
+                                        <xar:mlvar>#xarLocaleGetFormattedDate('short', $item['modified'])#</xar:mlvar>
+                                        <xar:mlvar>#xarLocaleGetFormattedTime('short', $item['modified'])#</xar:mlvar>
+                                    </xar:ml>
+                                </td>
+                                <td style="width:15%" class="xar-align-center">
+                                    <a href="#$item['detaillink']#" title="#xarML('File details')#"><xar:mlstring>Details</xar:mlstring></a>
+                                    <xar:if condition="!empty($item['detailview'])">
+                                     | <a class="filepreview" href="#$item['detailview']#" title="#xarML('File preview of '.$item['file'])#"><xar:mlstring>Preview</xar:mlstring></a>
+                                     <xar:else />
+                                     | <xar:mlstring>Preview</xar:mlstring>
+                                    </xar:if>
+                                </td>
+                            </tr>
+                        <xar:set name="rowclass">$rowclass == 'xar-norm' ? 'xar-alt' : 'xar-norm'</xar:set>
+                        <xar:set name="nodeid">++$nodeid</xar:set>
+                    </xar:foreach>
+                </tbody>
+                </table>
+            </xar:if>
+        </div>
+    </div>
+</div>
