@@ -1,4 +1,4 @@
-# Xarigami Files Module
+# XarigamiND Files Module
 
 The Files module emulates the file managers commonly seen in
 web hosting administrative interfaces such as cPanel. Its intent 
